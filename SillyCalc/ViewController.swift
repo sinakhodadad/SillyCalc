@@ -48,9 +48,16 @@ class ViewController: UIViewController {
         userIsTyping = false
     }
     
-    func doCalc(calc: (Double,Double) -> Double){
+    func doCalc2(calc2: (Double,Double) -> Double){
         if operandStack.count >= 2{
-            displayValue = calc(operandStack.removeLast(), operandStack.removeLast())
+            displayValue = calc2(operandStack.removeLast(), operandStack.removeLast())
+            returnButtonPressed()
+        }
+    }
+    
+    func doCalc1(calc1: (Double) -> Double){
+        if operandStack.count >= 1{
+            displayValue = calc1(operandStack.removeLast())
             returnButtonPressed()
         }
     }
@@ -64,17 +71,32 @@ class ViewController: UIViewController {
         if operandStack.count >= 2 {
             switch buttonRecieved {
             case "×"?:
-                doCalc(calc: {(op1, op2) in return op1 * op2})
+                doCalc2(calc2: {(op1, op2) in return op1 * op2})
             case "÷"?:
-                doCalc(calc: {(op1, op2) in return op2 / op1})
+                doCalc2(calc2: {(op1, op2) in return op2 / op1})
             case "-"?:
-                doCalc(calc: {(op1, op2) in return op2 - op1})
+                doCalc2(calc2: {(op1, op2) in return op2 - op1})
             case "+"?:
-                doCalc(calc: {(op1, op2) in return op1 + op2})
+                doCalc2(calc2: {(op1, op2) in return op1 + op2})
+            case "√"?:
+                doCalc1(calc1: {(op1) in return pow(op1,0.5)})
+            case "cos"?:
+                doCalc1(calc1: {(op1) in return cos(op1 * Double.pi / 180)})
             default:
                 break
             }
             
+            
+        }
+        else if operandStack.count >= 1{
+            switch buttonRecieved{
+                case "√"?:
+                    doCalc1(calc1: {(op1) in return pow(op1,0.5)})
+                case "cos"?:
+                    doCalc1(calc1: {(op1) in return cos(op1 * Double.pi / 180)})
+                default:
+                    break
+            }
             
         }
     }
